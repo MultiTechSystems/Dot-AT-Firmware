@@ -1,154 +1,30 @@
-## 3.1.0-rc6 (2018-06-29)
-*  [IN:3098] fix bug
-*  [IN:3111] DR0 error Japan fix 
-*  Removed save config from set channel plan
-*  [IN:3110] Fix for firmware upgrades from old config versions
-*  [IN:3108] fix nlc will no longer show mac cmds
-*  [IN:3153] update nlc format
-*  [IN:3166] at+pn would change data rate for peer to peer
-*  [IN:3172] set datarate for join mode
-*  Update license file to match the one in the channel plans
-*  fixed auto join bug when flashing new channel plan
-*  fixed US and AS payload sizes
-*  fixed 128 to 125 on max payload typo
-*  [IN:3098] repeats fix on ack timeout
-*  [IN:3124] also changed repeater sizes
-*  [IN:3125] fix clearing downlink channels on join
-*  India 865 update Rx2 Frequency
-*  [IN:3130] fix with rx2 fake window timer
-*  [IN:3130] fix added timeonair function to radio
-*  [IN:3129] ignore duplicate mac cmds
-*  [IN:3126] fix in865 and au915 join data rates fixed
-*  [IN:3131] class c window was wrong freq fix
-*  Added EU868 class c wrong freq fix
-*  fix warning for GetTimeOnAir function
-*  [IN:3176] fix ack timer works on tx timeout and crc no longer resets state
+=Release 3.1.0=
+
+==Enhancements==
+* Added support for firmware over the air updates (FOTA)
+* Added support for multicast messages
+* Added auto sleep support for sleeping between rx windows
+* Added support for IN865, KR920 channel plans
+* Upgraded to mBed OS 5.7.7
+* ADR enabled by default
+* Default settings changed to Public LoRaWAN with 5 second Join Delay
+
+==Bug fixes==
 *  AS923 reduce min frequency to cover New Zealand 915-928 MHz
-*  [IN:3205] removed dr6 from in865
-
-
-
-## 3.1.0-rc5 (2018-05-04)
-
-*  Added frame count to multicast group setup
-*  [IN:3094] added back 1200 baud rates fixed 
-*  [IN:3077] Fix for new channel MAC command validation
-*  [IN:3077] Follow up to allow a channel index to be cleared
-*  Fix link state regression introduced with commit ada6d2f
-*  [IN:3078] Fix for LinkADR MAC command handling
 *  Add downlink channel settings for rx1 in EU, IN and KR
-*  India 865 Bugfix for handling of channel reset request
-*  [IN:3143] fix at+sendi now outputs recv buf
-*  [IN:3153] update nlc format
-*  Merged Fota
-*  [IN:3077] Fix for new channel MAC command validation
-*  [IN:3077] Follow up to allow a channel index to be cleared
-*  Fix link state regression introduced with commit ada6d2f
-*  [IN:3078] Fix for LinkADR MAC command handling
-*  Add downlink channel settings for rx1 in EU, IN and KR
-*  Bugfix for IN865 handling of channel reset request
-
-
-
-## 3.1.0-rc4 (2018-04-24)
-*  ChannelPlan: EU868 default channels should support only DR0-5. 
-*  [IN:3021] Follow up fix for when tx buffer is filled w/ MAC commands
-
-
-## 3.1.0-rc3 (2018-04-06)
-
-*  Changed startup message for xdot
-*  [IN:3018] Clear the MAC buffer upon join accept
-*  Added key support for fota multicast groups
-*  [IN:3021] Clear MAC commands upon successful uplink
-*  [IN:3032] Add mechanism for determining which rx window a packet was received in
-
-
-## 3.1.0-rc2 (2018-03-08)
-
-*  [IN:2759] bug fix
-*  Update PublicNetwork and JoinDelay documentation
-*  [IN:2849] bug fix 
-*  [IN:2693] Japan channel plan changes 
-*  Lora: adjust Network Type documentation
-
-
-## 3.1.0-rc1 (2018-02-28)
-
-*  Add support for sleeping in between rx windows
-*  Restore xDot default stack sizes
-*  Switch to a plain counter for max_timeout checks
-*  Add AutoSleep to the LoRa config
-*  Auto sleep ACK bugfix 
-*  More conversions of Timer instances to use plain counters
-*  Only allow Auto Sleep to be enabled in class A mode
-*  Refactor auto sleep class checking
-*  Bugfix for auto sleep rx2 sleep calc
-*  Tune auto sleep to only 20ms of idle time between each rx window
-*  Added getChannelPlan function
-*  Change default settings to public network JoinDelay default to 5 seconds for both Public and Private networks 5 seconds is needed for cloud join server connection over cellular
-*  setAdr on by default
-*  Increase idle time pad in auto sleep from 20ms to 30ms
-*  [IN:2912] Clear network id and key passphrase string on explicit set
-*  Added dwelltime check to validate dr
-*  Enable ADR by default
-*  Changes for ARM 6.8 compiler support
-*  [IN:2910] Class C send immediately after join fix
-*  [IN:2948] Fix for sleep call w/ rx windows open
-*  Update API documentation
-*  [IN:2949] Fix for channel mask restore
-*  Fix for channel mask indexing
-*  Suppress log message in auto sleep mode
-*  [IN:2885] Fix for MissedAck statistic
-*  Set stack size to 2048 and submodule changes
-*  NetworkType: add changes for PRIVATE_LORAWAN network type             
-*  Update submodule and make calls direct to mac layer skipping mote
-*  [IN:2989] Fix for session save in auto sleep mode
-*  [IN:2885] Fix for delivering ACKs to the application upon duplicate packet rx
-*  Fixed Channel plan switching. Fixed decrement data rate
-*  Fixed Listen Before Talk bug to make dot use txfreq from AT cmd
-*  Add support for sleeping between rx windows
-*  Enforce minimum rx window open time of 20 milliseconds
-*  Fixed switching class error
-*  Fixed Ack retries on bad packet rx
-*  Channel plan updates for remove AU/US private differences from LoRaWAN Fix AS923 handle mac command for downlink channels Fix adr ack request decrecementing below plan set minimum
-*  Update to US channel plan max payload size
-*  Add received wrong packet info
-*  Ensure DR15 is always included in the datarates vector
-*  [IN:2781] Rx1 datarate offset needs range adjusted to 7 to match AS923  
-*  Added some fixed for [IN:2693] AS923-Japan also added reset on RxError
-*  ARM 6.8 compiler support
-*  [IN:2913] ADR ACK cnt fix
-*  Minor logging changes
-*  [IN:2885] Fix for MissedAck statistic
-*  ChannelPlans: US/AU revert removal of previous private mode with non-compliant downlink channels to maintain backward compatibility 
-*  Lora: Add PRIVATE_MTS and PRIVATE_LORAWAN network types 
-*  [IN:2885] Increment MissedAck up front and decrement upon ACK reception
-*  [IN:2885] Fix for ACK accounting when receiving a duplicate packet
-*  [IN:2885] Fix for ACK reporting to application when receiving a duplicate packet
-*  [IN:2958] Fix for time off air blocking
+*  ChannelPlan: EU868 default channels support only DR0-5 
+*  Mac Commands buffer fixes, buffer will clear properly
+*  Negative Antenna gain functions correctly now
+*  AT&F now changes dots to class A
+*  LBT now uses AT+TXF for testing at a fixed frequency
+*  Added Info logging for wrong packet received information (wrong address, mic failure)
 *  Suppress some trace logging to avoid stack overflow
-*  [IN:2994] Allow default channels to be disabled with a LinkADRReq MAC command
-*  [IN:2996] Add support for DlChannelReq MAC command for all applicable channel plans
-
-
-## 3.0.2 (2017-11-29)
-
-*  mDot: add address to RxDone event, add function to set Multicast params
-*  Add multicast session info to config and session objects, up to 3 sessions can be used
-*  Save and restore multicast sessions
-*  Clarify prescaler fix is just for xDot
-*  Updated with ditry flag to save flash writes, fixed lora channel plan memory leak
-*  Add AppEUI and AppKey to protected settings
-
-## 3.0.1 (2017-10-04)
-
-*  mDotEvent: remove parameter defaults
-*  Definied OS_CLOCK for xdot
-*  Overloaded getInstance function called without plan object
-*  Added locking for spi write mDot.
+*  Allow default channels to be disabled with a LinkADRReq MAC command
+*  Add support for DlChannelReq MAC command for all applicable channel plans
+*  Added locking for spi write mDot, now thread safe
 *  AU915: DR0-6 support
-*  Add address to PacketRx event, Multicast packets will have different address
-*  Mac: open rx window on wakeup in Class C mode
-*  Added ResetRadio to resetState
-*  Add EIRP limit of 16 for Japan and include LBT +TXF fix
+*  Open rx window on wakeup in Class C mode
+
+==Know Issues==
+* Sleeping before rx windows close can cause transmit in progess error
+	-Workaround call cancelRxWindow before sleep
