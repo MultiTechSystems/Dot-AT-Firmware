@@ -1,13 +1,17 @@
 =Release 3.1.0=
 
 ==Enhancements==
-* Added support for firmware over the air updates (FOTA)
+* Added support for firmware over the air updates (FOTA) -mDot only
 * Added support for multicast messages
 * Added auto sleep support for sleeping between rx windows
 * Added support for IN865, KR920 channel plans
+* Store AppEUI and AppKey in protected settings
 * Upgraded to mBed OS 5.7.7
 * ADR enabled by default
 * Default settings changed to Public LoRaWAN with 5 second Join Delay
+* Added bootloader for xDot
+* Added support for custom bootloader for xDot
+* Update KR920 max payload sizes changed in LW 1.0.2 Regional Specification
 
 ==Bug fixes==
 *  AS923 reduce min frequency to cover New Zealand 915-928 MHz
@@ -24,7 +28,9 @@
 *  Added locking for spi write mDot, now thread safe
 *  AU915: DR0-6 support
 *  Open rx window on wakeup in Class C mode
+*  Fix for backward compatibility for 1.0 and 2.0 dot libraries 
 
 ==Know Issues==
 * Sleeping before rx windows close can cause transmit in progess error
 	-Workaround call cancelRxWindow before sleep
+* Commands sent at the wrong baud rate can lock up the xDot and mDot
