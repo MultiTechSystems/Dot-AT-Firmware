@@ -1,3 +1,12 @@
+=Release 3.2.0=
+
+* Added Class B
+* Added RU864
+* Added support for 1.0.3rA
+* Added options to AT+ADR to set ACK_LIMIT and ACK_DELAY
+* Added frequency offset for fine tuning AT+FO, measure with AT+SENDC (continuous wave)
+* Added XDOT-FOTA passthrough support AT+RXO=2 and AT+SD serial data mode
+
 =Release 3.1.0=
 
 ==Enhancements==
