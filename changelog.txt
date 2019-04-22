@@ -1,11 +1,18 @@
 =Release 3.2.0=
 
-* Added Class B
 * Added RU864
-* Added support for 1.0.3rA
+* Added support for LoRaWAN 1.0.3rA
+* Added Class B
+** AT+DC=B
+** AT+BLS Beacon Lock State
+* Added AT+GPSTIME
+* Added AT+TXS to return available payload bytes for next transmission
 * Added options to AT+ADR to set ACK_LIMIT and ACK_DELAY
 * Added frequency offset for fine tuning AT+FO, measure with AT+SENDC (continuous wave)
+* Added optional continuous wave arguments: AT+SENDC: [TIMEOUT],[FREQUENCY],[POWER]
 * Added XDOT-FOTA passthrough support AT+RXO=2 and AT+SD serial data mode
+* AutoSleep functionality and AT+AS command was removed
+* Removed obsolete commands: AT+JBO, AT+FEC, AT+TXI and AT+RXI
 
 =Release 3.1.0=
 
