@@ -1,5 +1,19 @@
+=Release 3.2.1=
+
+==Changes==
+* Update to Dot library 3.2.1
+
+==Bug Fixes==
+* Reduced max parity packets for FOTA to 300
+* SerialMode: Clear rx buffer for subsequent received packets
+
+==Regression in 3.2.0==
+* Downlink 16-bit counter rollover
+
+
 =Release 3.2.0=
 
+* Update to mbed-os-5.11.1
 * Added RU864
 * Added support for LoRaWAN 1.0.3rA
 * Added Class B
@@ -12,7 +26,12 @@
 * Added optional continuous wave arguments: AT+SENDC: [TIMEOUT],[FREQUENCY],[POWER]
 * Added XDOT-FOTA passthrough support AT+RXO=2 and AT+SD serial data mode
 * AutoSleep functionality and AT+AS command was removed
-* Removed obsolete commands: AT+JBO, AT+FEC, AT+TXI and AT+RXI
+* Removed obsolete commands: AT+JBO, AT+FEC, AT+TXI and AT+RXI - needed flash for xDot
+
+==Known Issues==
+* Downlink 16-bit counter rollover not handled correctly
+
+
 
 =Release 3.1.0=
 
