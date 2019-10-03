@@ -1,7 +1,20 @@
+## 3.2.3 (2019-10-03)
+
+### Bug Fixes
+* Fix ADR backoff for Dynamic plans when default channels are disabled and new channels do not support use DR0
+
 =Release 3.2.2=
+
+==Changes==
+* Increase SNR to 16-bit
+* Remove getDateRateDetails misspelled function
+* EU868 - Max power 16 dBm EIRP
+* Use LORA radio setting for LBT
+* ADR LIMIT and DELAY reduced to 8-bit
 
 ==Bug Fixes==
 * Fixed LBT causing Tx issue on join
+* Fix ADR backoff AdrCounter 8-bit rollover
 
 =Release 3.2.1=
 
