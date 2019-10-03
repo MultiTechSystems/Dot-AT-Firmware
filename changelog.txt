@@ -1,6 +1,38 @@
-## 3.2.3 (2019-10-03)
+=latest=
 
-### Bug Fixes
+==Changes==
+* LW 1.0.4
+** MAX FCNT GAP check removed
+** Join Nonce incremented with each Join Request sent
+*** Is reset when AppEUI/AppKeys are changed
+* Added unsolicited result code option AT+URC=1
+** Outputs RECV when packet is received
+* Added AT+RXO=3 option for EXTENDED_HEX output including dev_addr and fcnt for each payload
+* Added multicast setup options
+** AT+NA=(1-8),<DEV-ADDR>
+** example: AT+NA=1,00112233 - setup multicast dev address
+** AT+NSK=(1-8),<NWK-SESSION-KEY>
+** AT+DSK=(1-8),<APP-SESSION-KEY>
+** AT+DLC=(1-8),<DOWNLINK-COUNTER>
+** AT+MCRX=(1-8),(DR0-DR15),(FREQ),(-1-7:PERIOD,-1:CLASS_C)
+** AT+JN - Join Nonce counter
+** AT+REPAIR=1 to erase flash and restore current config settings on mDot
+** AT&WP - Save Protected settings available in all firmware
+** AT+DI - Protected DeviceEUI can be changed
+** AT+NI=2,<EUI> - Set default AppEUI/JoinEUI, value if set will be used as the default AT+NI setting when AT&F is issued
+** AT+NK=2,<KEY> - Set default AppKey, value if set will be used as the default AT+NK setting when AT&F is issued
+* Pin Outputs
+** Join Status available on Associate Pin (mDot:A2, xDot:GPIO0)
+** Rx Packet pin is brought high when packet is received, the pin is reset when a new command issued. (mDot:D12, xDot:GPIO1)
+*** AT+RECV can be used to retrieve the packet and reset the pin
+** RSSI is output using PWM (mDot:D15, xDot:PB_8/I2C_SCL)
+*** Duty-cycle is set at 50% with period equal to ABS(rssi)/120
+
+==Bug Fixes==
+
+=3.2.3 (2019-10-03)=
+
+==Bug Fixes==
 * Fix ADR backoff for Dynamic plans when default channels are disabled and new channels do not support use DR0
 
 =Release 3.2.2=
