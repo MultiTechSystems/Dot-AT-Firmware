@@ -30,6 +30,11 @@
 
 ==Bug Fixes==
 
+=3.2.4 (2019-10-22)=
+
+==Bug Fixes==
+* LBT: wait for non-zero RSSI from radio before starting scan
+
 =3.2.3 (2019-10-03)=
 
 ==Bug Fixes==
