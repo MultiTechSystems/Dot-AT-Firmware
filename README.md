@@ -2,6 +2,8 @@
 
 Release binaries and latest builds of AT Firmware for mDot and xDot hardware
 
+See [Change Log](https://github.com/MultiTechSystems/Dot-AT-Firmware/blob/master/changelog.txt) for release notes.
+
 ## Debug firmware allows changing frequency bands
 ALL-PLANS-mbed-os-X.X.XX-DEBUG
 
