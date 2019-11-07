@@ -1,10 +1,11 @@
 =latest=
 
 ==Changes==
-* LW 1.0.4
+* LoRaWAN 1.0.4 (LW1.0.4)
 ** MAX FCNT GAP check removed
-** Join Nonce incremented with each Join Request sent
-*** Is reset when AppEUI/AppKeys are changed
+** Join Dev Nonce is incremented with each Join Request sent
+** Join App Nonce is validated to increment with each Join Accept received
+*** Nonces are reset when AppEUI/AppKeys are changed
 * Added unsolicited result code option AT+URC=1
 ** Outputs RECV when packet is received
 * Added AT+RXO=3 option for EXTENDED_HEX output including dev_addr and fcnt for each payload
@@ -15,7 +16,9 @@
 ** AT+DSK=(1-8),<APP-SESSION-KEY>
 ** AT+DLC=(1-8),<DOWNLINK-COUNTER>
 ** AT+MCRX=(1-8),(DR0-DR15),(FREQ),(-1-7:PERIOD,-1:CLASS_C)
-** AT+JN - Join Nonce counter
+** AT+JN - Join Nonce counters <DEV-NONCE>,<APP-NONCE>
+*** Nonces are saved to flash after each join App Nonce is validated to be incremented from the Join Server per LW1.0.4
+** AT+JNV - Enable/disable Join Nonce validation in Join Accept
 ** AT+REPAIR=1 to erase flash and restore current config settings on mDot
 ** AT&WP - Save Protected settings available in all firmware
 ** AT+DI - Protected DeviceEUI can be changed
@@ -25,8 +28,6 @@
 ** Join Status available on Associate Pin (mDot:A2, xDot:GPIO0)
 ** Rx Packet pin is brought high when packet is received, the pin is reset when a new command issued. (mDot:D12, xDot:GPIO1)
 *** AT+RECV can be used to retrieve the packet and reset the pin
-** RSSI is output using PWM (mDot:D15, xDot:PB_8/I2C_SCL)
-*** Duty-cycle is set at 50% with period equal to ABS(rssi)/120
 
 ==Bug Fixes==
 
@@ -41,6 +42,8 @@
 * LBT: wait for non-zero RSSI from radio before starting scan
 
 =3.2.3 (2019-10-03)=
+
+* Objenious Network Approved
 
 ==Bug Fixes==
 * Fix ADR backoff for Dynamic plans when default channels are disabled and new channels do not support use DR0
