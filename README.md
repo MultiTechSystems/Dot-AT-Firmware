@@ -25,3 +25,6 @@ AT&WP
 
 These settings will be used when AT&F is issued to reset to default.
 
+## xDot Application files
+These files can be used to update the xDot firmware via the bootloader over serial
+See [Bootloader Doc](https://os.mbed.com/teams/MultiTech/code/xDot-bootloader/file/fb181c5bc5e9/README.md/)
