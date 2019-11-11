@@ -5,7 +5,7 @@
 ** MAX FCNT GAP check removed
 ** Join Dev Nonce is incremented with each Join Request sent
 ** Join App Nonce is validated to increment with each Join Accept received
-*** Nonces are reset when AppEUI/AppKeys are changed
+*** Nonces are reset when AppEUI/JoinEUI is changed
 * Added unsolicited result code option AT+URC=1
 ** Outputs RECV when packet is received
 * Added AT+RXO=3 option for EXTENDED_HEX output including dev_addr and fcnt for each payload
