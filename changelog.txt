@@ -28,6 +28,11 @@
 ** Join Status available on Associate Pin (mDot:A2, xDot:GPIO0)
 ** Rx Packet pin is brought high when packet is received, the pin is reset when a new command issued. (mDot:D12, xDot:GPIO1)
 *** AT+RECV can be used to retrieve the packet and reset the pin
+* FUOTA
+** Fragment and Parity indexes changed to start at 1
+** McKEKey compatible derivation to unpack multicast session keys
+** Session Start Time as GPS time supported
+
 
 ==Bug Fixes==
 
