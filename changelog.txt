@@ -1,5 +1,7 @@
 =latest=
 
+=3.3.5=
+
 ==Changes==
 * LoRaWAN 1.0.4 (LW1.0.4)
 ** MAX FCNT GAP check removed
