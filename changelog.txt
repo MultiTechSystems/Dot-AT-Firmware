@@ -1,5 +1,10 @@
 =latest=
 
+=3.3.5-mbed-os-5.15.1=
+
+==Changes==
+* mDot sleep current is reduced 10 uA
+
 =3.3.5=
 
 ==Changes==
@@ -37,6 +42,9 @@
 
 
 ==Bug Fixes==
+
+==Known Issues==
+* Sleep current on mDot increased 10 uA
 
 =3.2.5 (2019-10-25)=
 
