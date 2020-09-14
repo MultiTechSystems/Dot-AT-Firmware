@@ -1,5 +1,45 @@
 =latest=
 
+==4.0.0-mbed-os-6.1.0==
+
+* LoRaWAN 1.0.4
+* Regional Parameters 1.0.3rA
+* FUOTA - Fragmentation and Multicast Setup v1.0.0
+* Support for EU868, US915, KR920, IN865, RU864, AU915, AS923-1, AS923-2, AS923-3 and AS923-JAPAN
+
+* New AT Commands
+**  AT+BTO - Class B Timeout
+** AT+CTO - Class C Timeout
+
+* xDot
+** Removed some commands and options to reduce firmware size
+*** help
+*** =? option
+*** AT&V
+*** AT&S
+*** Error details have been removed, only ERROR is returned
+
+* Configuration Updates
+** Changes to the configuration are not backwards compatible with previous versions
+** A device will lose all configuration and identification if reverted to a previous firmware
+** Configuration is saved with redundancy and wear leveling to increase resiliency and allow recovery after write errors due to loss of power or reset during a write cycle
+
+* mDot sleep can be interrupted by LowPowerTimer expiration when RTC_ALARM_OR_INTERRUPT is used.
+
+* xDot now supports FUOTA when an external SPI flash is provided
+** Block Device Requirements
+*** For a block device to work with the XDot it must meet the following criteria:
+**** Work with MBed OS DataFlashBlockDevice or SPIFBlockDevice classes
+**** Maximum 4KB sector erase size
+**** Maximum 512 byte page size
+**** SPIF type components must support Serial Flash Discoverable Parameters (SFDP)
+
+* Updated bootloader
+** Supports image manifest allowing full images, compressed images and differential updates
+** Firmware image utility available https://pypi.org/project/mtsmultitool/
+
+
+
 =3.3.5-mbed-os-5.15.1=
 
 ==Changes==
