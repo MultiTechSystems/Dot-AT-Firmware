@@ -1,5 +1,19 @@
 =latest=
 
+==4.1-rc2-mbed-os-6.8.0==
+
+* Fixed issue where accessing files and sleeping in different threads would cause the MDot to lock up.
+* Added AT command to get and set duty-cycle.
+* Ability to save a backup of protected settings (Device ID, Network ID, Network Key, and Gen App Key) in MDot One-Time-Programmable storage.
+* FOTA session now checks file system for space required to complete file download and upgrade process.  If inadequate space is available files are removed.
+* Ability to set trigger for WAKE pin as rising, falling, or either.
+* Updated to MBed OS 6.8.
+* Support for AS923-4.
+
+* Bootloader 1.1-rc1-mbed-os-6.8.0
+** Erase command now erases only the file system area of flash unless “all” is specified.
+** Updated to MBed OS 6.8.
+
 ==4.0.0-mbed-os-6.1.0==
 
 * LoRaWAN 1.0.4
