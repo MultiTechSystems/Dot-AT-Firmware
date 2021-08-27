@@ -1,15 +1,10 @@
 =latest=
 
-==4.1-rc4-mbed-os-6.8.0==
+==4.1.0-mbed-os-6.8.0==
 
 * Update ChannelPlan_AU915.cpp - add max payload values for DR8-DR13
 
-==4.1-rc3-mbed-os-6.8.0==
-
 * XDot - check for external flash only when starting a FOTA session to reduce start-up time.
-* Bootloader 1.1-rc2 - Jump straight to application when reset from deep sleep (reduces XDot start-up time from sleep).
-
-==4.1-rc2-mbed-os-6.8.0==
 
 * Fixed issue where accessing files and sleeping in different threads would cause the MDot to lock up.
 * Added AT command to get and set duty-cycle.
@@ -19,8 +14,9 @@
 * Updated to MBed OS 6.8.
 * Support for AS923-4.
 
-* Bootloader 1.1-rc1-mbed-os-6.8.0
+* Bootloader 1.1.0-mbed-os-6.8.0
 ** Erase command now erases only the file system area of flash unless “all” is specified.
+** Jump straight to application when reset from deep sleep (reduces XDot start-up time from sleep).
 ** Updated to MBed OS 6.8.
 
 ==4.0.0-mbed-os-6.1.0==
