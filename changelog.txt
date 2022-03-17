@@ -1,5 +1,27 @@
 =latest=
 
+==4.1.6-mbed-os-6.8.0==
+
+* Passes LCTT 3.4.0 LoRaWAN Class A US,AU,EU,KR,AS,IN,RU
+* Adjustments to TxParam and ADR Validation for AU and AS
+* Change Join Backoff to use DevNonce to track number of attempts
+** Allows backoff to accrue over sleep
+
+==4.1.5-mbed-os-6.8.0==
+
+* Sleep for more than 4294 seconds
+* Global Channel Plan US915,EU868,AU915 and AS923 (1,2,3,4,JAPAN1 and JAPAN2)
+** To change channel plan when GLOBAL firmware is used
+*** AT+DFREQ=EU868
+*** AT&WP
+*** ATZ
+*** AT+FREQ shows current plan
+
+
+==4.1.2-mbed-os-6.8.0==
+
+* Increase serial buffer to 512 bytes
+
 ==4.1.0-mbed-os-6.8.0==
 
 * Update ChannelPlan_AU915.cpp - add max payload values for DR8-DR13
