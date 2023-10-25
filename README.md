@@ -38,10 +38,21 @@ Debug builds have additional functionality and log output for debug and trace le
 
 * No bootloader
 
+**xdot-firmware-x.x.x-GLOBAL-mbed-os-x.x.x-debug.bin**
+
+* Includes all channel plans
+* Allows changing frequency bands
+
+```
+AT+DFREQ=AS923
+AT&WP
+ATZ
+```
 
 #### MDot
 
 **mdot-firmware-x.x.x-ALL-PLANS-mbed-os-x.x.x-debug.bin**
+**mdot-firmware-x.x.x-GLOBAL-mbed-os-x.x.x-debug.bin**
 
 * Includes all channel plans
 * Allows changing frequency bands
