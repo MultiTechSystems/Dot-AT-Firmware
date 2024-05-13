@@ -1,0 +1,233 @@
+; TTL Script to update xDot/mDot firmware via bootloader using ymodem
+
+
+MDOT=0
+XDOT=1
+XDOTES=2
+XDOTAD=3
+
+
+strdim msg 4
+msg[0] = 'MDOT' 
+msg[1] = 'XDOT' 
+msg[2] = 'XDOTES'
+msg[3] = 'XDOTAD'
+listbox 'Select target device.' 'Confirmation' msg
+
+if result=-1 then
+	exit
+endif
+
+; SET THE TARGET DEVICE TYPE
+target=result
+
+
+filenamebox 'Select application file to upgrade device' 0
+if result=-1 then
+	exit
+endif
+
+source_file=inputstr
+
+getdir workdir
+
+
+
+if target=XDOT then
+	xdot_srcfile=source_file
+elseif target=XDOTES then
+	xdotes_srcfile=source_file
+elseif target=XDOTAD then
+	; Calculate and append CRC
+	crc32file file_crc source_file
+
+	upgrade_file=workdir
+	strconcat upgrade_file '\fw_upgrade.bin'
+	filecopy source_file upgrade_file
+	fileopen fhandle upgrade_file 1
+	filewrite fhandle file_crc
+	rotateright b file_crc 8
+	filewrite fhandle b
+	rotateright b file_crc 16
+	filewrite fhandle b
+	rotateright b file_crc 24
+	filewrite fhandle b
+	fileclose fhandle
+
+	xdotad_srcfile = upgrade_file
+else
+	; Calculate and append CRC
+	crc32file file_crc source_file
+
+	upgrade_file=workdir
+	strconcat upgrade_file '\fw_upgrade.bin'
+	filecopy source_file upgrade_file
+	fileopen fhandle upgrade_file 1
+	filewrite fhandle file_crc
+	rotateright b file_crc 8
+	filewrite fhandle b
+	rotateright b file_crc 16
+	filewrite fhandle b
+	rotateright b file_crc 24
+	filewrite fhandle b
+	fileclose fhandle
+
+
+	mdot_srcfile = upgrade_file
+endif
+
+
+
+; XDOT INSTRUCTIONS
+
+; XDOT APPLICATION CAN BE USED WITHOUT CRC
+; xdot_srcfile = 'C:\Users\jsr\Downloads\DOT\archive-dot-4.1.32\archive\bins\xdot-apps\xdot-firmware-4.1.32-RU864-mbed-os-6.8.0-application-debug.bin'
+
+
+; XDOTES INSTRUCTIONS
+
+; XDOTES APPLICATION CAN BE USED WITHOUT CRC
+; xdotes_srcfile = "C:\Users\jsr\Downloads\DOT\xdot-es-ad-4.2.20-dev-build\archive\bins\xdotes-apps\xdotes-firmware-4.2.19-8-g6980e3f-RU864-xdot-max32670-application.bin"
+
+
+
+; XDOTAD INSTRUCTIONS
+
+; APPLY CRC TO XDOTAD FILE BEFORE UPDATE
+; >multitool device crc xdotad-firmware-4.2.19-8-g6980e3f-AS923-xdot-max32670-application.bin -o fw_upgrade.bin
+; Image with CRC (b9e14bb0) written to "fw_upgrade.bin"
+
+; xdotad_srcfile = "C:\Users\jsr\Downloads\DOT\xdot-es-ad-4.2.20-dev-build\archive\bins\xdotad-apps\xdotad-firmware-4.2.19-8-g6980e3f-AS923-xdot-max32670-application.bin"
+; xdotad_srcfile = "C:\Users\jsr\Downloads\DOT\xdot-es-ad-4.2.20-dev-build\archive\bins\xdotad-apps\fw_upgrade.bin"
+
+; WAIT FOR CRC CHECK AND UPGRADE
+
+; Debug port shows upgrade and reset to application
+; [INFO] MultiTech Bootloader 1.1.9
+; [INFO] Backing up current firmwa[INFO] Flashing new firmware
+; [INFO] erasing page at address 0x10010000
+; ... 
+; [INFO] erasing page at address 0x1001c000
+; [INFO] erasing page at address 0x1001e000
+; [INFO] writing upgrade..
+; [INFO] Upgrade completed successfully[INFO] MultiTech Bootloader 1.1.9
+; [WARNING] bootloader: filesystem not supported
+;
+; XDOTAD
+; 
+; IF CRC FAILS ERROR is printed after upgrade
+
+; ATZ
+; 
+; OK
+; mtsbootloader :>
+; bootloader :> x
+; ERROR
+; bootloader :> upgrade
+; ERROR
+;     �bootloader :>
+
+
+
+
+
+
+; MDOT INSTRUCTIONS
+
+; APPLY CRC TO MDOT FILE BEFORE UPDATE
+; >multitool device crc mdot-apps\mdot-firmware-4.1.32-AS923_2-mbed-os-6.8.0-application.bin -o fw_upgrade.bin
+; Image with CRC (c44ef4b5) written to "fw_upgrade.bin"
+
+; srcfile = 'C:\Users\jsr\Downloads\DOT\archive-dot-4.1.32\archive\bins\mdot-apps\mdot-firmware-4.1.32-AS923-mbed-os-6.8.0-application.bin'
+; mdot_srcfile = 'C:\Users\jsr\Downloads\DOT\archive-dot-4.1.32\archive\bins\fw_upgrade.bin'
+
+
+
+
+
+timeout=1
+
+sendln "AT"
+waitln "OK"
+
+if result=0 then
+    ATCMD=0
+else
+    ATCMD=1
+endif
+
+if ATCMD=1 then
+	sendln "ATZ"
+	mpause 1200
+	sendln "mts"
+else
+	sendbreak
+endif
+
+
+send "x"
+mpause 100
+sendln ""
+mpause 100
+
+if target=XDOT then
+	; xDot upgrade command
+	sendln "upgrade"
+	srcfile = xdot_srcfile
+elseif target=XDOTES then
+    ; xDot upgrade command
+	sendln "upgrade"
+	srcfile = xdotes_srcfile
+elseif target=XDOTAD then
+	; xDot upgrade command
+	sendln "upgrade"
+	srcfile = xdotad_srcfile
+else
+	; mDot upgrade command
+	sendln "upgrade ymodem"
+	srcfile = mdot_srcfile
+endif
+
+mpause 100
+
+ymodemsend srcfile
+if result=1 then
+	if target=XDOT then
+		messagebox 'File transfer success\n\nUpgrade complete' 'Send File' 1
+		upgrade_timeout = 0
+	elseif target=XDOTES then
+		messagebox 'File transfer success\n\nUpgrade complete' 'Send File' 1
+		upgrade_timeout = 0
+	elseif target=XDOTAD then
+		messagebox 'File transfer success\n\nWait for firmware update to complete before powering off or resetting the device\nThe device will reset after upgrade is complete, complete process takes approx 90 seconds' 'Send File' 1
+		upgrade_timeout = 90
+	else
+		messagebox 'File transfer success\n\nWait for firmware update to complete before powering off or resetting the device\nThe device will reset after upgrade is complete, complete process takes approx 30 seconds' 'Send File' 1
+		upgrade_timeout = 30
+	endif
+
+	; infinite loop while displaying the counter
+	step = 0
+	while step < upgrade_timeout
+	call show_step
+	pause 1
+	endwhile
+
+	messagebox "Upgrade complete" "Firmware Update" 0
+
+else
+	messagebox 'File transfer failure' 'Send'
+endif
+
+exit
+
+
+
+:show_step
+step = step + 1
+gettime timestr "%Y/%m/%d-%H:%M:%S"
+
+sprintf2 s "Performing upgrade...\n\nProgress %d / %d" step upgrade_timeout
+strspecial s
+statusbox s timestr 1
+return
