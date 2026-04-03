@@ -977,50 +977,59 @@ class SerialUpgrade:
 
     def _break_and_enter(self) -> bool:
         """
-        Send serial break, read the bootloader banner to determine
-        the version, then pick the correct key(s) and flood.
+        Send serial break and immediately send the bootloader key.
 
-        On the debug port we can see the banner and know the version.
-        If the banner doesn't appear, fall back to trying all keys.
+        The bootloader provides a 250ms window after reset to receive the
+        escape sequence:
+        - 'mts' for bootloader 1.2.0+ (MAX32670)
+        - 'xdt' for bootloader 1.1.x (older xDot)
+        - Any character for 1.1.x debug port
+
+        We try each key in sequence until one works.
 
         Returns True if bootloader prompt is found.
         """
-        self._log("  Sending break...")
-        self._flush_input()
-        self._ser.send_break(duration=0.25)
-
-        found, banner = self._wait_for_banner(timeout=3.0)
-        if found:
-            # Already at prompt (e.g., device was in bootloader)
-            return True
-
-        if banner:
-            # We saw the banner -- pick the right key(s) for this version
-            keys = self._pick_debug_keys(banner)
-            for key in keys:
-                key_display = key.decode('ascii', errors='replace').replace('\r', '\\r').replace('\n', '\\n') or '(newline)'
-                self._log(f"    Flooding '{key_display}' to stay in bootloader...")
-                if self._flood_after_banner(key, banner, timeout=5.0):
-                    return True
-            return False
-
-        # No banner seen -- try brute force with all keys
-        self._log("    No banner seen on first break, retrying with each key...")
         for key in self.BL_KEYS:
             key_str = key.decode()
-            self._log(f"  Sending break (key='{key_str}')...")
+            self._log(f"  Sending break and '{key_str}' immediately...")
             self._flush_input()
             self._ser.send_break(duration=0.25)
-            found, banner = self._wait_for_banner(timeout=3.0)
-            if found:
-                return True
-            if banner:
-                self._log(f"    Flooding '{key_str}' to stay in bootloader...")
-                if self._flood_after_banner(key, banner, timeout=5.0):
-                    return True
-            time.sleep(0.5)
 
-        self._log("  All break attempts exhausted.")
+            # Send key immediately after break (within 250ms window)
+            self._ser.write(key + NEWLINE)
+
+            # Now read response and check for bootloader prompt
+            buf = b''
+            start = time.time()
+            while time.time() - start < 2.0:
+                if self._cancelled:
+                    raise UpgradeError("Cancelled")
+                chunk = self._ser.read(128)
+                if chunk:
+                    buf += chunk
+                    if self._check_prompt_in(buf):
+                        self._log(f"    Bootloader prompt found")
+                        return True
+                time.sleep(0.02)
+
+            # Log what we received for diagnostics
+            if buf:
+                # Check if app started (missed the window)
+                if b'Dot Ready' in buf:
+                    self._log(f"    App started - trying next key...")
+                else:
+                    display = buf.decode('utf-8', errors='replace')
+                    display = display.replace('\r', '').replace('\n', ' ').strip()
+                    if len(display) > 100:
+                        display = display[:100] + "..."
+                    self._log(f"    Received: {display}")
+            else:
+                self._log(f"    No response")
+
+            # Wait for device to boot back before next attempt
+            time.sleep(1.0)
+
+        self._log("  All keys exhausted.")
         return False
 
     def _wait_for_banner(self, timeout: float) -> Tuple[bool, bytes]:

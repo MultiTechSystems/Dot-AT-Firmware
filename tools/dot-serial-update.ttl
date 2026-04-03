@@ -156,15 +156,38 @@ else
     ATCMD=1
 endif
 
+; Enter bootloader - try 'mts' first (1.2.0+), then 'xdt' (1.1.x)
 if ATCMD=1 then
+	; AT port: send ATZ then try mts, if fail try xdt
 	sendln "ATZ"
 	mpause 1200
 	sendln "mts"
+	mpause 500
+	; Check if we got bootloader prompt
+	wait 'bootloader :>' 'ERROR'
+	if result=2 then
+		; mts failed, try xdt (for 1.1.x bootloader)
+		sendln "ATZ"
+		mpause 1200
+		sendln "xdt"
+	endif
 else
+	; Debug port: send break then try mts, if fail try xdt
 	sendbreak
+	mpause 100
+	sendln "mts"
+	mpause 500
+	; Check if we got bootloader prompt
+	wait 'bootloader :>' 'Dot Ready'
+	if result=2 then
+		; mts failed (app started), try xdt
+		sendbreak
+		mpause 100
+		sendln "xdt"
+	endif
 endif
 
-
+; Cancel any pending operation and prepare for upgrade
 send "x"
 mpause 100
 sendln ""
