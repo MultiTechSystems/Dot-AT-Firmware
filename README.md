@@ -66,7 +66,8 @@ To enter the bootloader for serial firmware upgrades, the device must be reset a
 |--------------------|----------------|------------|-------|
 | v0.1.x             | N/A            | Any keypress | Single port only (xDot mbed-os-5) |
 | 1.0.0 - 1.1.9      | `mts`          | Any keypress | STM32 and MAX32670 targets |
-| 1.2.0+             | `mts`          | `mts` (MAX32670) / Any keypress (others) | MAX32670 debug port now requires key |
+| 1.2.0              | `mts`          | `mts` (MAX32670) / Any keypress (others) | MAX32670 debug port now requires key; Python tool broken |
+| 1.2.2+             | `mts`          | `mts` (MAX32670) / Any keypress (others) | Fixed: accepts bootloader entry on either port even with noise on other port; Python tool fixed |
 
 > The key `xdt` was used in some intermediate xDot bootloader builds but was changed to `mts` before any tagged release.  The upgrade tool tries both keys for compatibility.
 
