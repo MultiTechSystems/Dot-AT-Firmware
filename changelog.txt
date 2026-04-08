@@ -1,5 +1,18 @@
 =latest=
 
+==Bootloader 1.2.2 (xDot-ES, xDot-AD)==
+
+* Fixed bootloader entry on either serial port when noise is present on the other port
+** Previous versions (1.2.0) would fail to enter bootloader if random data was received on the alternate port during the 250ms window
+* Fixed firmware update over debug port using Python tools
+** The dot-upgrade.py tool now works correctly; was broken in 1.2.0 (TeraTerm scripts still worked)
+* Both AT/command port and debug port now require `mts` key sequence for bootloader entry on MAX32670 targets
+
+==4.2.30-xdot-max32670 (xDot-ES, xDot-AD)==
+
+* Built with bootloader 1.2.2
+* Requires mbed-os master (post-6.17.0) with MAX32670 fixes
+
 ==4.1.6-mbed-os-6.8.0==
 
 * Passes LCTT 3.4.0 LoRaWAN Class A US,AU,EU,KR,AS,IN,RU
